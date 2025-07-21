@@ -38,6 +38,11 @@ class StockTransferController extends Controller
             // Subtract from source
             $sourceStock->decrement('quantity', $data['quantity']);
 
+            // Check low stock
+            if ($sourceStock->quantity < 10) {
+                event(new \App\Events\LowStockDetected($sourceStock));
+            }
+
             // Add to destination (or create new stock row)
             $destinationStock = Stock::firstOrCreate(
                 [
