@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Stock;
 use App\Models\StockTransfer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -52,6 +53,10 @@ class StockTransferController extends Controller
             $transfer = StockTransfer::create($data);
 
             DB::commit();
+
+            // Remove cache to keep inventory up to date after transfer
+            Cache::forget("warehouse_inventory_{$data['from_warehouse_id']}");
+            Cache::forget("warehouse_inventory_{$data['to_warehouse_id']}");
 
             return response()->json([
                 'message' => 'Stock transferred successfully.',
