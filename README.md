@@ -1,61 +1,121 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1 align="center">Laravel Inventory Management API</h1>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About APP
 
-## About Laravel
+A simplified RESTful API for managing inventory across multiple warehouses.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project is part of a backend developer job application task. It is built using **Laravel 12**, and provides functionality to manage warehouses, inventory items, stock levels, and stock transfers.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🧱 Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8
+- Composer
+- MySQL
+- Web server (e.g., Apache, Nginx)
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Clone the repository**:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+   ```bash
+   git clone https://github.com/your-username/inventory-api.git
+   cd inventory-api
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Install dependencies**:
 
-## Laravel Sponsors
+   ```bash
+   composer install
+
+3. **Copy .env file**:
+
+   ```bash
+   cp .env.example .env
+
+4. **Configure .env with your database credentials**:
+
+   ```bash
+   DB_USERNAME=root
+   DB_PASSWORD=secret
+
+5. **Generate app key**:
+
+   ```bash
+   php artisan key:generate
+
+6. **Run migrations and seeders**:
+
+   ```bash
+   php artisan migrate --seed
+
+7. **Serve the app**:
+
+   ```bash
+   php artisan serve
+
+And You're ready to use the APIs
+
+## 🔐 Authentication
+
+1. **Create a user manually via Tinker**:
+
+   ```bash
+   php artisan tinker
+   $user = \App\Models\User::factory()->create();
+   $token = $user->createToken('api-token')->plainTextToken;
+   echo $token;
+
+2. **Then use the token in your requests**:
+
+    ```makefile
+    Authorization: Bearer YOUR_TOKEN_HERE
 
 We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+### 📡 API Endpoints
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+All endpoints are protected using Sanctum. Use the Authorization header in every request
 
-## Contributing
+### 📦 Inventory
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* GET /api/inventory
+  * List paginated inventory items
+  * Optional filters:
+    * ?name=laptop
+    * ?min_price=100
+    * ?max_price=500
 
-## Code of Conduct
+### 🔄 Stock Transfers
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* POST /api/stock-transfers
+  * Body
 
-## Security Vulnerabilities
+    ```json
+    {
+        "inventory_item_id": 1,
+        "from_warehouse_id": 1,
+        "to_warehouse_id": 2,
+        "quantity": 10
+    }
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 🏢 Warehouse Inventory
 
-## License
+* GET /api/warehouses/{id}/inventory
+  * Lists stock items for a specific warehouse
+  * Response is cached for 10 minutes
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🧪 Running Tests
+
+1. **Create a separate database for tests (e.g., inventory_test)**
+
+2. **Update .env.testing**:
+
+    ```env
+    DB_CONNECTION=mysql
+    DB_DATABASE=inventory_test
+    DB_USERNAME=root
+    DB_PASSWORD=secret
+
+3. **Run tests**:
+
+    ```bash
+    php artisan test
