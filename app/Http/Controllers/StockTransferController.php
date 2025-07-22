@@ -70,6 +70,12 @@ class StockTransferController extends Controller
 
         } catch (\Throwable $e) {
             DB::rollBack();
+
+            // Let Laravel handle validation exceptions properly
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                throw $e;
+            }
+
             return response()->json([
                 'error' => 'Transfer failed',
                 'details' => $e->getMessage(),
