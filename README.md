@@ -4,7 +4,6 @@
 
 A simplified RESTful API for managing inventory across multiple warehouses.
 
-This project is part of a backend developer job application task. It is built using **Laravel 12**, and provides functionality to manage warehouses, inventory items, stock levels, and stock transfers.
 
 ## 🧱 Requirements
 
@@ -18,7 +17,7 @@ This project is part of a backend developer job application task. It is built us
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/inventory-api.git
+   git clone https://github.com/anter-as/inventory-api.git
    cd inventory-api
 
 2. **Install dependencies**:
@@ -34,8 +33,8 @@ This project is part of a backend developer job application task. It is built us
 4. **Configure .env with your database credentials**:
 
    ```bash
-   DB_USERNAME=root
-   DB_PASSWORD=secret
+   DB_USERNAME=your_database_username
+   DB_PASSWORD=your_database_username_password
 
 5. **Generate app key**:
 
@@ -112,8 +111,8 @@ All endpoints are protected using Sanctum. Use the Authorization header in every
     ```env
     DB_CONNECTION=mysql
     DB_DATABASE=inventory_test
-    DB_USERNAME=root
-    DB_PASSWORD=secret
+    DB_USERNAME=your_database_username
+    DB_PASSWORD=your_database_username_password
 
 3. **Run tests**:
 
