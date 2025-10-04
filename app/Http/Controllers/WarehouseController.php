@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Warehouse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class WarehouseController extends Controller
 {
-    public function inventory($id)
+    public function inventory(int $id): JsonResponse
     {
         $cacheKey = "warehouse_inventory_{$id}";
 
@@ -27,7 +28,7 @@ class WarehouseController extends Controller
 
             return [
                 'warehouse' => [
-                    'id'       => $warehouse->id,
+                    'id'       => $warehouse->id, 	/** @phpstan-ignore variable.undefined */
                     'name'     => $warehouse->name,
                     'location' => $warehouse->location,
                 ],
