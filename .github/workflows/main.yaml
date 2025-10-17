@@ -1,11 +1,11 @@
-name: Laravel Tests
+name: Laravel CI
 
 on:
   push:
   pull_request:
 
 jobs:
-  tests:
+  build:
     runs-on: ubuntu-latest
 
     services:
@@ -23,37 +23,36 @@ jobs:
           --health-retries=3
 
     steps:
-      - name: Checkout code
+      - name: 🧾 Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up PHP
+      - name: ⚙️ Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: mbstring, bcmath, pdo_mysql, xml, ctype, tokenizer, fileinfo
           coverage: none
 
-      - name: Copy .env
-        run: cp .env.example .env
-
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-      - name: Generate app key
-        run: php artisan key:generate
+      - name: 🔑 Generate app key
+        run: |
+          cp .env.example .env
+          php artisan key:generate
 
-      - name: Wait for MySQL to be ready
+      - name: 🕒 Wait for MySQL to be ready
         run: |
           until mysqladmin ping -h 127.0.0.1 --silent; do
             sleep 1
           done
 
-      - name: Configure database
+      - name: 🧩 Run database migrations and seeders
         run: |
           php artisan config:clear
           php artisan migrate --seed --force
 
-      - name: Run tests
+      - name: ✅ Run PHPUnit tests
         env:
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
@@ -61,4 +60,7 @@ jobs:
           DB_DATABASE: inventory_test
           DB_USERNAME: root
           DB_PASSWORD:
-        run: php artisan test
+        run: php artisan test --no-interaction --stop-on-failure
+
+      - name: 🧠 Run Larastan static analysis
+        run: vendor/bin/phpstan analyse --memory-limit=1G
