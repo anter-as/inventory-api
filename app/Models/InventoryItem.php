@@ -24,6 +24,4 @@ class InventoryItem extends Model
             ->withPivot('quantity')
             ->withTimestamps();
     }
-
-    // 🔍 For search (name/price range), we’ll add a scope later.
 }
