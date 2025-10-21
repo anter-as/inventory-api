@@ -64,3 +64,6 @@ jobs:
 
       - name: 🧠 Run Larastan static analysis
         run: vendor/bin/phpstan analyse --memory-limit=1G
+
+      - name: 🧹 Run Laravel Pint - Code style check
+        run: vendor/bin/pint --test
