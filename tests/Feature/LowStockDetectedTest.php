@@ -3,10 +3,10 @@
 namespace Tests\Feature;
 
 use App\Events\LowStockDetected;
-use App\Models\User;
-use App\Models\Warehouse;
 use App\Models\InventoryItem;
 use App\Models\Stock;
+use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;

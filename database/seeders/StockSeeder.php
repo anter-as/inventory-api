@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\InventoryItem;
 use App\Models\Stock;
 use App\Models\Warehouse;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class StockSeeder extends Seeder

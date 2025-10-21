@@ -29,7 +29,7 @@ class StockTransferController extends Controller
                 ->lockForUpdate()
                 ->first();
 
-            if (!$sourceStock || $sourceStock->quantity < $data['quantity']) {
+            if (! $sourceStock || $sourceStock->quantity < $data['quantity']) {
                 throw ValidationException::withMessages([
                     'quantity' => 'Not enough stock in source warehouse.',
                 ]);

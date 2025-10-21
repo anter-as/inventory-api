@@ -14,7 +14,7 @@ class InventoryController extends Controller
 
         // Search by name
         if ($request->filled('name')) {
-            $query->where('name', 'like', '%' . $request->query('name') . '%');
+            $query->where('name', 'like', '%'.$request->query('name').'%');
         }
 
         // Filter by price range
